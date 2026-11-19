@@ -5,6 +5,10 @@ import Header from '../components/Header.astro';
 import type { Locale } from '../i18n/locale';
 import { otherLocale, switchLocalePath } from '../i18n/routes';
 import { t } from '../i18n/ui';
+import displayFont from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2?url';
+import '@fontsource-variable/bricolage-grotesque/wght.css';
+import '@fontsource-variable/hanken-grotesk/wght.css';
+import bodyFont from '@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url';
 import '../styles/global.css';
 import '../styles/motion.css';
 
@@ -31,7 +35,9 @@ const ogImageUrl = ogImage ? new URL(ogImage, site).href : undefined;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0d0f14" />
+    <meta name="theme-color" content="#0b0a09" />
+    <link rel="preload" as="font" type="font/woff2" href={displayFont} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={bodyFont} crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     {

@@ -10,6 +10,9 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: calc(var(--header-h) + var(--space-4));
     -webkit-text-size-adjust: 100%;
+    background: var(--bg);
+    scrollbar-color: var(--border-strong) var(--bg);
+    scrollbar-width: thin;
 }
 
 body {
@@ -20,25 +23,36 @@ body {
     background: var(--bg);
     color: var(--fg);
     font-family: var(--font-sans);
-    font-size: 1rem;
+    font-size: var(--fs-body);
     line-height: 1.6;
+    caret-color: var(--accent);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 main {
     flex: 1;
 }
 
+::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+}
+
 h1,
 h2,
 h3 {
     font-family: var(--font-display);
-    line-height: 1.15;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
     margin: 0 0 var(--space-4);
 }
 
 p {
     margin: 0 0 var(--space-4);
+    text-wrap: pretty;
 }
 
 a {
@@ -63,7 +77,7 @@ code {
 }
 
 .container {
-    width: min(100% - 2 * var(--space-5), var(--container));
+    width: min(100% - 2 * var(--gutter), var(--container));
     margin-inline: auto;
 }
 
@@ -95,6 +109,60 @@ code {
     transform: none;
 }
 
+.section {
+    padding-block: clamp(4.5rem, 11vw, 9rem);
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.85rem 1.5rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--fg);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+        background-color 0.35s var(--ease-out),
+        color 0.35s var(--ease-out),
+        border-color 0.35s var(--ease-out);
+}
+
+.button svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.45s var(--ease-out);
+}
+
+.button:hover {
+    border-color: var(--fg);
+    background: var(--fg);
+    color: var(--bg);
+}
+
+.button:hover svg {
+    transform: translate(2px, -2px);
+}
+
+.button.down:hover svg {
+    transform: translateY(2px);
+}
+
+.button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+}
+
+.button.primary:hover {
+    background: var(--fg);
+    border-color: var(--fg);
+    color: var(--bg);
+}
+
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
@@ -107,9 +175,4 @@ code {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
-}
-
-
-.section {
-    padding-block: var(--space-8);
 }
