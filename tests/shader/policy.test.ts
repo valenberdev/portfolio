@@ -14,10 +14,11 @@ describe("shouldAnimate", () => {
 
 describe("pixelRatioFor", () => {
   it.each([
-    [3, false, 1.5],
-    [1, false, 1],
-    [2, true, 1],
-    [0.5, true, 0.5],
+    [3, false, 0.75],
+    [1, false, 0.75],
+    [0.5, false, 0.5],
+    [2, true, 0.5],
+    [0.4, true, 0.4],
   ])("dpr %s, mobile %s -> %s", (dpr, isMobile, expected) => {
     expect(pixelRatioFor(dpr, isMobile)).toBe(expected);
   });

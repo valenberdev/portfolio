@@ -1,7 +1,7 @@
 export type MotionEnv = { reducedMotion: boolean; webgl: boolean };
 
-const MAX_DESKTOP_RATIO = 1.5;
-const MAX_MOBILE_RATIO = 1;
+const MAX_DESKTOP_RATIO = 0.75;
+const MAX_MOBILE_RATIO = 0.5;
 
 export function shouldAnimate(env: MotionEnv): boolean {
   return env.webgl && !env.reducedMotion;
