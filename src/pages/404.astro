@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { homePath } from '../i18n/routes';
+import { ui } from '../i18n/ui';
+---
+
+<BaseLayout locale="en" title="404 — Valentino Berdini" description={ui.en['notFound.title']} noindex>
+  <section class="container notfound">
+    <p class="code" aria-hidden="true">404</p>
+    <div lang="es">
+      <h1>{ui.es['notFound.title']}</h1>
+      <a href={homePath('es')}>{ui.es['notFound.back']}</a>
+    </div>
+    <div lang="en">
+      <h2>{ui.en['notFound.title']}</h2>
+      <a href={homePath('en')}>{ui.en['notFound.back']}</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-8);
+  }
+
+  .code {
+    font-family: var(--font-mono);
+    font-size: clamp(4rem, 15vw, 9rem);
+    line-height: 1;
+    margin: 0;
+    color: var(--accent);
+  }
+
+  h1,
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  a {
+    color: var(--muted);
+  }
+</style>

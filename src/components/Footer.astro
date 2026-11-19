@@ -1,0 +1,39 @@
+---
+import type { Locale } from '../i18n/locale';
+import ContactLinks from './ContactLinks.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container row">
+    <p>© {year} Valentino Berdini</p>
+    <ContactLinks locale={locale} />
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-block: var(--space-6);
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  p {
+    margin: 0;
+  }
+</style>

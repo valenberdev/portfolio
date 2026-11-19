@@ -1,0 +1,66 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import type { Locale } from '../i18n/locale';
+import { otherLocale, switchLocalePath } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { locale, title, description, ogImage, noindex = false } = Astro.props;
+const ui = t(locale);
+const pathname = Astro.url.pathname;
+const site = Astro.site ?? Astro.url;
+const canonical = new URL(pathname, site).href;
+const alternate = new URL(switchLocalePath(pathname), site).href;
+const ogLocale = { es: 'es_AR', en: 'en_US' }[locale];
+const ogImageUrl = ogImage ? new URL(ogImage, site).href : undefined;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0d0f14" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex" />
+      ) : (
+        <>
+          <link rel="canonical" href={canonical} />
+          <link rel="alternate" hreflang={locale} href={canonical} />
+          <link rel="alternate" hreflang={otherLocale(locale)} href={alternate} />
+          <link rel="alternate" hreflang="x-default" href={new URL('/', site).href} />
+        </>
+      )
+    }
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{ui.skipLink}</a>
+    <Header locale={locale} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>
