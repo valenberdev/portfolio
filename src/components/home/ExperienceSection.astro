@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import type { Locale } from '../../i18n/locale';
 import { t } from '../../i18n/ui';
 import type { Experience } from '../../lib/content';
+import Arrow from '../Arrow.astro';
 import SectionHeading from './SectionHeading.astro';
 
 interface Props {
@@ -31,7 +32,7 @@ const rendered = await Promise.all(
   <SectionHeading number={2} title={ui['nav.experience']} />
   {
     rendered.map(({ entry, Content }) => (
-      <article class="job" data-reveal>
+      <article class="job" data-reveal="row">
         <header>
           <p class="period">
             {formatMonth(entry.data.start)} — {entry.data.end ? formatMonth(entry.data.end) : ui['experience.present']}
@@ -43,7 +44,8 @@ const rendered = await Promise.all(
           </ul>
           {entry.data.links.store && (
             <a class="store" href={entry.data.links.store} target="_blank" rel="noopener noreferrer">
-              {ui['link.store']} ↗
+              {ui['link.store']}
+              <Arrow />
             </a>
           )}
           {entry.data.note && <p class="note">{entry.data.note}</p>}
@@ -60,24 +62,27 @@ const rendered = await Promise.all(
 <style>
   .job {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     gap: var(--space-6);
-    padding: var(--space-6);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    padding-block: clamp(1.75rem, 4vw, 3rem);
+    border-block: 1px solid var(--border);
   }
 
   .period {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: var(--space-2);
   }
 
   h3 {
-    font-size: 1.6rem;
-    margin-bottom: var(--space-1);
+    margin-bottom: var(--space-2);
+    font-size: var(--fs-title);
+    font-weight: 650;
+    letter-spacing: -0.035em;
+    line-height: 1;
   }
 
   .role {
@@ -87,35 +92,62 @@ const rendered = await Promise.all(
   .stack {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: var(--space-1) var(--space-3);
     list-style: none;
-    margin: 0 0 var(--space-4);
+    margin: 0 0 var(--space-5);
     padding: 0;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--muted);
+    font-size: var(--fs-small);
+    font-weight: 500;
+  }
+
+  .stack li:not(:last-child)::after {
+    content: '/';
+    margin-left: var(--space-3);
+    color: var(--border-strong);
   }
 
   .store {
-    font-size: 0.9rem;
-    text-underline-offset: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.35em;
+    transition: text-decoration-color 0.3s var(--ease-out);
+  }
+
+  .store:hover {
+    text-decoration-color: var(--fg);
+  }
+
+  .store:hover :global(svg) {
+    transform: translate(2px, -2px);
   }
 
   .note {
-    margin-top: var(--space-3);
-    font-size: 0.8rem;
+    margin-top: var(--space-4);
+    font-size: var(--fs-small);
     color: var(--warning);
   }
 
+  .body {
+    max-width: 44rem;
+  }
+
   .summary {
-    font-size: 1.1rem;
+    font-family: var(--font-display);
+    font-size: var(--fs-lead);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
   }
 
   .body :global(h2) {
-    font-size: 1rem;
-    font-family: var(--font-mono);
-    color: var(--accent);
-    margin-top: var(--space-5);
+    margin-top: var(--space-6);
+    font-size: 1.15rem;
+    font-weight: 650;
+    letter-spacing: -0.015em;
   }
 
   .body :global(ul) {
@@ -127,11 +159,10 @@ const rendered = await Promise.all(
     margin-bottom: var(--space-2);
   }
 
-  @media (max-width: 48rem) {
+  @media (min-width: 60rem) {
     .job {
-      grid-template-columns: 1fr;
-      gap: var(--space-4);
-      padding: var(--space-5);
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--space-7);
     }
   }
 </style>

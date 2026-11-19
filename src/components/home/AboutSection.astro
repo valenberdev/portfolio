@@ -21,14 +21,14 @@ const groups = [
 <section id={ui['section.about']} class="container section">
   <SectionHeading number={3} title={ui['nav.about']} />
   <div class="layout">
-    <div class="text" data-reveal>
+    <div class="text" data-reveal="row">
       <p>{ui['about.p1']}</p>
       <p>{ui['about.p2']}</p>
     </div>
-    <dl class="groups" data-reveal>
+    <dl class="groups" data-reveal="row">
       {
         groups.map((group) => (
-          <div>
+          <div class="group">
             <dt>{group.label}</dt>
             <dd>
               <ul>
@@ -45,32 +45,43 @@ const groups = [
 <style>
   .layout {
     display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     gap: var(--space-7);
   }
 
-  .text p {
-    font-size: 1.15rem;
+  .text p:first-child {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    color: var(--fg);
+    margin-bottom: var(--space-6);
+  }
+
+  .text p:last-child {
+    max-width: 38rem;
+    font-size: var(--fs-lead);
     color: var(--muted);
   }
 
-  .text p:first-child {
-    color: var(--fg);
+  .groups {
+    margin: 0;
+    border-bottom: 1px solid var(--border);
   }
 
-  .groups {
+  .group {
     display: grid;
-    gap: var(--space-5);
-    margin: 0;
+    gap: var(--space-2);
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--border);
   }
 
   dt {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--accent);
-    margin-bottom: var(--space-2);
   }
 
   dd {
@@ -80,23 +91,23 @@ const groups = [
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: var(--space-1) var(--space-3);
     list-style: none;
     margin: 0;
     padding: 0;
+    font-size: 1.05rem;
   }
 
-  li {
-    padding: 0.2rem 0.65rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-pill);
-    font-size: 0.85rem;
+  li:not(:last-child)::after {
+    content: '/';
+    margin-left: var(--space-3);
+    color: var(--border-strong);
   }
 
-  @media (max-width: 48rem) {
+  @media (min-width: 60rem) {
     .layout {
-      grid-template-columns: 1fr;
-      gap: var(--space-6);
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--space-8);
     }
   }
 </style>

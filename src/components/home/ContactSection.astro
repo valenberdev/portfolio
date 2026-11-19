@@ -14,9 +14,9 @@ const ui = t(locale);
 
 <section id={ui['section.contact']} class="container section contact">
   <SectionHeading number={4} title={ui['nav.contact']} />
-  <p class="lead" data-reveal>{ui['contact.lead']}</p>
-  <a class="email" href="mailto:vaberdini@gmail.com" data-reveal>vaberdini@gmail.com</a>
-  <div data-reveal>
+  <p class="lead" data-reveal="row">{ui['contact.lead']}</p>
+  <a class="email" href="mailto:vaberdini@gmail.com" data-reveal="row">vaberdini@gmail.com</a>
+  <div data-reveal="row">
     <ContactLinks locale={locale} size="lg" />
   </div>
 </section>
@@ -29,20 +29,37 @@ const ui = t(locale);
   }
 
   .lead {
-    font-size: 1.25rem;
-    color: var(--muted);
+    max-width: 32rem;
     margin: 0;
+    font-size: var(--fs-lead);
+    color: var(--muted);
   }
 
   .email {
-    font-size: clamp(1.5rem, 5vw, 3rem);
+    padding-bottom: 0.12em;
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 6.2vw, 5.5rem);
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
     text-decoration: none;
-    border-bottom: 1px solid var(--border-strong);
-    transition: border-color 0.2s, color 0.2s;
+    overflow-wrap: anywhere;
+    background: linear-gradient(var(--accent), var(--accent)) 0 100% / 100% 2px no-repeat;
+    background-size: 0 2px;
+    transition:
+      color 0.3s var(--ease-out),
+      background-size 0.7s var(--ease-out);
   }
 
   .email:hover {
     color: var(--accent);
-    border-color: var(--accent);
+    background-size: 100% 2px;
+  }
+
+  @media (hover: none) {
+    .email {
+      background-size: 100% 2px;
+      background-image: linear-gradient(var(--border-strong), var(--border-strong));
+    }
   }
 </style>
