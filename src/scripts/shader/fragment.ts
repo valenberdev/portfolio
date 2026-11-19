@@ -30,7 +30,7 @@ float noise(vec2 p) {
 float fbm(vec2 p) {
   float value = 0.0;
   float amplitude = 0.5;
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 4; i++) {
     value += amplitude * noise(p);
     p *= 2.0;
     amplitude *= 0.5;
@@ -38,11 +38,15 @@ float fbm(vec2 p) {
   return value;
 }
 
+float fbmLow(vec2 p) {
+  return 0.6 * noise(p) + 0.4 * noise(p * 2.0);
+}
+
 void main() {
   vec2 uv = gl_FragCoord.xy / u_resolution;
   float aspect = u_resolution.x / u_resolution.y;
   vec2 q = uv * vec2(aspect, 1.0) * 2.0;
-  vec2 warp = vec2(fbm(q + u_time * 0.04), fbm(q + vec2(5.2, 1.3) - u_time * 0.035));
+  vec2 warp = vec2(fbmLow(q + u_time * 0.04), fbmLow(q + vec2(5.2, 1.3) - u_time * 0.035));
   float glow = smoothstep(0.55, 0.0, distance(uv * vec2(aspect, 1.0), u_pointer * vec2(aspect, 1.0)));
   float field = fbm(q + 2.2 * warp + (u_pointer - 0.5) * 0.6) + 0.2 * glow;
 
