@@ -1,0 +1,43 @@
+---
+interface Props {
+  direction?: 'up-right' | 'right' | 'down';
+}
+
+const { direction = 'up-right' } = Astro.props;
+---
+
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  {
+    direction === 'up-right' && (
+      <>
+        <path d="M7 17L17 7" />
+        <path d="M8 7h9v9" />
+      </>
+    )
+  }
+  {
+    direction === 'right' && (
+      <>
+        <path d="M5 12h14" />
+        <path d="M13 6l6 6l-6 6" />
+      </>
+    )
+  }
+  {
+    direction === 'down' && (
+      <>
+        <path d="M12 5v14" />
+        <path d="M6 13l6 6l6 -6" />
+      </>
+    )
+  }
+</svg>
+
+<style>
+  svg {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.45s var(--ease-out);
+  }
+</style>

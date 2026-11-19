@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../../i18n/locale';
 import { t } from '../../i18n/ui';
+import Arrow from '../Arrow.astro';
 import ContactLinks from '../ContactLinks.astro';
 
 interface Props {
@@ -18,13 +19,26 @@ const cvHref = `/cv/cv-valentino-berdini-${locale}.pdf`;
   </div>
   <div class="container content">
     <p class="role">{ui['hero.role']} · Node.js · TypeScript · Java · PostgreSQL</p>
-    <h1>Valentino Berdini</h1>
-    <p class="tagline">{ui['hero.tagline']}</p>
-    <div class="actions">
-      <a class="button primary" href={`#${ui['section.projects']}`}>{ui['hero.cta.projects']}</a>
-      <a class="button" href={cvHref} download>{ui['hero.cta.cv']}</a>
+    <h1>
+      <span class="line"><span class="word">Valentino</span></span>
+      <span class="line"><span class="word">Berdini<i class="dot" aria-hidden="true"></i></span></span>
+    </h1>
+    <div class="foot">
+      <p class="tagline">{ui['hero.tagline']}</p>
+      <div class="cta">
+        <div class="actions">
+          <a class="button primary down" href={`#${ui['section.projects']}`}>
+            {ui['hero.cta.projects']}
+            <Arrow direction="down" />
+          </a>
+          <a class="button down" href={cvHref} download>
+            {ui['hero.cta.cv']}
+            <Arrow direction="down" />
+          </a>
+        </div>
+        <ContactLinks locale={locale} />
+      </div>
     </div>
-    <ContactLinks locale={locale} />
   </div>
 </section>
 
@@ -33,8 +47,9 @@ const cvHref = `/cv/cv-valentino-berdini-${locale}.pdf`;
     position: relative;
     display: grid;
     align-items: end;
-    min-height: calc(100svh - var(--header-h));
-    padding-block: var(--space-8) var(--space-7);
+    min-height: 100svh;
+    margin-top: calc(-1 * var(--header-h));
+    padding-block: calc(var(--header-h) + var(--space-8)) var(--space-7);
     overflow: hidden;
     isolation: isolate;
   }
@@ -44,8 +59,8 @@ const cvHref = `/cv/cv-valentino-berdini-${locale}.pdf`;
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(60% 60% at 75% 35%, rgb(143 135 240 / 0.28), transparent 70%),
-      radial-gradient(45% 50% at 20% 80%, rgb(93 202 165 / 0.16), transparent 70%),
+      radial-gradient(55% 55% at 78% 30%, rgb(255 90 54 / 0.2), transparent 70%),
+      radial-gradient(40% 45% at 15% 85%, rgb(120 40 20 / 0.18), transparent 70%),
       var(--bg);
   }
 
@@ -56,24 +71,68 @@ const cvHref = `/cv/cv-valentino-berdini-${locale}.pdf`;
   }
 
   .role {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--muted);
+    max-width: 30rem;
     margin: 0;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.7;
+    color: var(--muted);
   }
 
   h1 {
-    font-size: clamp(3rem, 11vw, 8rem);
-    letter-spacing: -0.03em;
-    line-height: 0.95;
     margin: 0;
+    font-size: var(--fs-display);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.88;
+  }
+
+  .line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.08em;
+  }
+
+  .word {
+    display: inline-block;
+  }
+
+  .line:last-child {
+    padding-left: 0.5em;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 0.14em;
+    height: 0.14em;
+    margin-left: 0.06em;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .foot {
+    display: grid;
+    gap: var(--space-6);
+    width: 100%;
+    margin-top: var(--space-5);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--border);
   }
 
   .tagline {
-    max-width: 36rem;
-    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
-    color: var(--muted);
+    max-width: 28rem;
     margin: 0;
+    font-size: var(--fs-lead);
+    line-height: 1.35;
+    color: var(--fg);
+  }
+
+  .cta {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
   }
 
   .actions {
@@ -82,28 +141,65 @@ const cvHref = `/cv/cv-valentino-berdini-${locale}.pdf`;
     gap: var(--space-3);
   }
 
-  .button {
-    padding: var(--space-3) var(--space-5);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius-pill);
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  @media (min-width: 56rem) {
+    .foot {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+    }
+
+    .cta {
+      justify-items: end;
+    }
   }
 
-  .button:hover {
-    background: var(--surface-2);
+  @media (prefers-reduced-motion: no-preference) {
+    .word {
+      animation: line-rise 1.3s var(--ease-out) both;
+    }
+
+    .line:nth-child(2) .word {
+      animation-delay: 0.12s;
+    }
+
+    .role,
+    .foot {
+      animation: fade-rise 1.1s var(--ease-out) both;
+    }
+
+    .role {
+      animation-delay: 0.05s;
+    }
+
+    .foot {
+      animation-delay: 0.55s;
+    }
+
+    @supports (animation-timeline: scroll()) {
+      .content {
+        animation: hero-out linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0 75svh;
+      }
+    }
   }
 
-  .button.primary {
-    background: var(--fg);
-    color: var(--bg);
-    border-color: var(--fg);
+  @keyframes line-rise {
+    from {
+      transform: translateY(105%);
+    }
   }
 
-  .button.primary:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: var(--fg);
+  @keyframes fade-rise {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+  }
+
+  @keyframes hero-out {
+    to {
+      opacity: 0;
+      transform: translateY(-3rem);
+    }
   }
 </style>
