@@ -6,6 +6,7 @@ import type { Locale } from '../i18n/locale';
 import { otherLocale, switchLocalePath } from '../i18n/routes';
 import { t } from '../i18n/ui';
 import '../styles/global.css';
+import '../styles/motion.css';
 
 interface Props {
   locale: Locale;
@@ -62,5 +63,10 @@ const ogImageUrl = ogImage ? new URL(ogImage, site).href : undefined;
       <slot />
     </main>
     <Footer locale={locale} />
+    <script>
+      import { initReveal } from '../scripts/reveal';
+
+      document.addEventListener('astro:page-load', initReveal);
+    </script>
   </body>
 </html>
