@@ -1,9 +1,10 @@
 import type { Locale } from "./locale";
 
 const es = {
-  "meta.title": "Valentino Berdini — Desarrollador backend",
+  "meta.title":
+    "Valentino Berdini — Desarrollador fullstack orientado al backend",
   "meta.description":
-    "Portfolio de Valentino Berdini, desarrollador backend junior: Node.js, TypeScript, Java y PostgreSQL. Proyectos con demo y código.",
+    "Portfolio de Valentino Berdini, desarrollador fullstack orientado al backend: apps de punta a punta con Node.js, TypeScript, Java y PostgreSQL.",
   skipLink: "Saltar al contenido",
   "nav.label": "Navegación principal",
   "nav.projects": "Proyectos",
@@ -14,7 +15,7 @@ const es = {
   "section.experience": "experiencia",
   "section.about": "sobre-mi",
   "section.contact": "contacto",
-  "hero.role": "Desarrollador backend",
+  "hero.role": "Desarrollador fullstack orientado al backend",
   "hero.cta.projects": "Ver proyectos",
   "hero.cta.cv": "Descargar CV",
   "status.live": "Demo en vivo",
@@ -33,9 +34,9 @@ const es = {
   "notFound.title": "Página no encontrada",
   "notFound.back": "Volver al inicio",
   "hero.tagline":
-    "Construyo APIs y sistemas backend que se pueden explicar, testear y mantener.",
+    "Apps de punta a punta: APIs, bases de datos, testing, CI/CD e IA.",
   "about.p1":
-    "Soy desarrollador backend, de Bahía Blanca, Argentina. Me formé como Full Stack Developer en Henry y hoy trabajo como freelance en el frontend de una app móvil para una clínica.",
+    "Soy desarrollador fullstack orientado al backend, de Bahía Blanca, Argentina. Me formé como Full Stack Developer en Henry y hoy trabajo como freelance en el frontend de una app móvil para una clínica.",
   "about.p2":
     "En mis proyectos priorizo que cada decisión se pueda defender: SQL explícito, tests contra bases reales y documentación de por qué se hizo cada cosa. Trabajo en español e inglés (EF SET C2).",
   "about.group.backend": "Backend",
@@ -51,9 +52,9 @@ export type UiKey = keyof typeof es;
 export type UiStrings = Record<UiKey, string>;
 
 const en: UiStrings = {
-  "meta.title": "Valentino Berdini — Backend developer",
+  "meta.title": "Valentino Berdini — Backend-focused full stack developer",
   "meta.description":
-    "Portfolio of Valentino Berdini, junior backend developer: Node.js, TypeScript, Java and PostgreSQL. Projects with live demos and code.",
+    "Portfolio of Valentino Berdini, a backend-focused full stack developer: end-to-end apps with Node.js, TypeScript, Java and PostgreSQL.",
   skipLink: "Skip to content",
   "nav.label": "Main navigation",
   "nav.projects": "Projects",
@@ -64,7 +65,7 @@ const en: UiStrings = {
   "section.experience": "experience",
   "section.about": "about",
   "section.contact": "contact",
-  "hero.role": "Backend developer",
+  "hero.role": "Backend-focused full stack developer",
   "hero.cta.projects": "See projects",
   "hero.cta.cv": "Download CV",
   "status.live": "Live demo",
@@ -82,10 +83,9 @@ const en: UiStrings = {
   "contact.email": "Email Valentino Berdini",
   "notFound.title": "Page not found",
   "notFound.back": "Back to home",
-  "hero.tagline":
-    "I build APIs and backend systems that are easy to explain, test and maintain.",
+  "hero.tagline": "End-to-end apps: APIs, databases, testing, CI/CD and AI.",
   "about.p1":
-    "I'm a backend developer from Bahía Blanca, Argentina. I trained as a Full Stack Developer at Henry, and I currently work as a freelancer on the frontend of a mobile app for a clinic.",
+    "I'm a backend-focused full stack developer from Bahía Blanca, Argentina. I trained as a Full Stack Developer at Henry, and I currently work as a freelancer on the frontend of a mobile app for a clinic.",
   "about.p2":
     "In my projects, every decision has to be defensible: explicit SQL, tests against real databases and documentation of why each thing was done. I work in Spanish and English (EF SET C2).",
   "about.group.backend": "Backend",
