@@ -40,19 +40,27 @@ float fbm(vec2 p) {
 
 void main() {
   vec2 uv = gl_FragCoord.xy / u_resolution;
-  vec2 q = uv * vec2(u_resolution.x / u_resolution.y, 1.0) * 2.2;
-  vec2 warp = vec2(fbm(q + u_time * 0.05), fbm(q + vec2(5.2, 1.3) - u_time * 0.04));
-  float glow = smoothstep(0.45, 0.0, distance(uv, u_pointer));
-  float v = fbm(q + 2.0 * warp + (u_pointer - 0.5) * 0.8) + 0.25 * glow;
+  float aspect = u_resolution.x / u_resolution.y;
+  vec2 q = uv * vec2(aspect, 1.0) * 2.0;
+  vec2 warp = vec2(fbm(q + u_time * 0.04), fbm(q + vec2(5.2, 1.3) - u_time * 0.035));
+  float glow = smoothstep(0.55, 0.0, distance(uv * vec2(aspect, 1.0), u_pointer * vec2(aspect, 1.0)));
+  float field = fbm(q + 2.2 * warp + (u_pointer - 0.5) * 0.6) + 0.2 * glow;
 
-  vec3 base = vec3(0.051, 0.059, 0.078);
-  vec3 violet = vec3(0.32, 0.29, 0.72);
-  vec3 teal = vec3(0.11, 0.55, 0.45);
+  float f = fract(field * 8.0);
+  float line = smoothstep(0.0, 0.05, f) - smoothstep(0.05, 0.12, f);
+  float heat = smoothstep(0.38, 0.88, field);
 
-  vec3 color = mix(base, violet, smoothstep(0.35, 0.9, v));
-  color = mix(color, teal, smoothstep(0.62, 1.05, v) * 0.6);
-  color *= 0.55 + 0.45 * (1.0 - uv.y * 0.5);
-  color = mix(base, color, smoothstep(0.0, 0.35, uv.y));
+  vec3 base = vec3(0.043, 0.039, 0.035);
+  vec3 ember = vec3(0.45, 0.11, 0.05);
+  vec3 hot = vec3(1.0, 0.35, 0.21);
+
+  vec3 color = base + ember * heat * 0.75;
+  color += hot * line * (0.05 + 0.4 * heat) * (0.6 + glow);
+  color += hot * glow * 0.1;
+
+  float fade = smoothstep(0.02, 0.6, uv.y);
+  color = mix(base, color, fade);
+  color += (hash(gl_FragCoord.xy) - 0.5) / 160.0;
 
   gl_FragColor = vec4(color, 1.0);
 }
