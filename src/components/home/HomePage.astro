@@ -8,6 +8,7 @@ import ContactSection from './ContactSection.astro';
 import ExperienceSection from './ExperienceSection.astro';
 import Hero from './Hero.astro';
 import ProjectsSection from './ProjectsSection.astro';
+import HeroShader from './HeroShader.astro';
 
 interface Props {
   locale: Locale;
@@ -19,7 +20,9 @@ const [projects, experience] = await Promise.all([getProjects(locale), getExperi
 ---
 
 <BaseLayout locale={locale} title={ui['meta.title']} description={ui['meta.description']}>
-  <Hero locale={locale} />
+  <Hero locale={locale}>
+    <HeroShader slot="background" />
+  </Hero>
   <ProjectsSection locale={locale} projects={projects} />
   <ExperienceSection locale={locale} items={experience} />
   <AboutSection locale={locale} />
