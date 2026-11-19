@@ -5,9 +5,10 @@ import { t } from '../i18n/ui';
 interface Props {
   locale: Locale;
   size?: 'sm' | 'lg';
+  withEmail?: boolean;
 }
 
-const { locale, size = 'sm' } = Astro.props;
+const { locale, size = 'sm', withEmail = true } = Astro.props;
 const ui = t(locale);
 
 const links = [
@@ -15,11 +16,14 @@ const links = [
   { href: 'https://github.com/valenberdev', label: ui['contact.github'], icon: 'github', external: true },
   { href: 'mailto:vaberdini@gmail.com', label: ui['contact.email'], icon: 'mail', external: false },
 ] as const;
+
+const visible = links.filter((link) => withEmail || link.icon !== 'mail');
+
 ---
 
 <ul class:list={['contact', size]}>
   {
-    links.map((link) => (
+    visible.map((link) => (
       <li>
         <a
           href={link.href}
