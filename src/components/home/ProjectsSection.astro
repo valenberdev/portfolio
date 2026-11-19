@@ -16,15 +16,13 @@ const ui = t(locale);
 
 <section id={ui['section.projects']} class="container section">
   <SectionHeading number={1} title={ui['nav.projects']} />
-  <div class="grid">
+  <div class="list">
     {projects.map((project) => <ProjectCard locale={locale} project={project} />)}
   </div>
 </section>
 
 <style>
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
-    gap: var(--space-5);
+  .list {
+    border-bottom: 1px solid var(--border);
   }
 </style>

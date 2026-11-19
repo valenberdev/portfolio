@@ -3,6 +3,7 @@ import type { Locale } from '../../i18n/locale';
 import { projectPath } from '../../i18n/routes';
 import { t } from '../../i18n/ui';
 import type { Project } from '../../lib/content';
+import Arrow from '../Arrow.astro';
 import StatusBadge from './StatusBadge.astro';
 
 interface Props {
@@ -17,112 +18,184 @@ const ui = t(locale);
 const href = projectPath(locale, slug);
 ---
 
-<article class="card" data-reveal>
-  <StatusBadge locale={locale} status={status} team={team} />
-  <h3 transition:name={`project-${slug}`}>
-    <a href={href}>{title}</a>
-  </h3>
-  <p class="summary">{summary}</p>
-  <ul class="stack">
-    {stack.map((item) => <li>{item}</li>)}
-  </ul>
-  {note && <p class="note">{note}</p>}
-  <div class="actions">
-    <a class="details" href={href}>{ui['card.details']}</a>
-    {
-      links.demo && (
-        <a href={links.demo} target="_blank" rel="noopener noreferrer">
-          {ui['link.demo']} ↗
-        </a>
-      )
-    }
-    {
-      links.repo && (
-        <a href={links.repo} target="_blank" rel="noopener noreferrer">
-          {ui['link.repo']} ↗
-        </a>
-      )
-    }
+<article class="card" data-reveal="row">
+  <div class="head">
+    <StatusBadge locale={locale} status={status} team={team} />
+    <h3 transition:name={`project-${slug}`}>
+      <a href={href}>{title}</a>
+    </h3>
+  </div>
+  <div class="info">
+    <p class="summary">{summary}</p>
+    <ul class="stack">
+      {stack.map((item) => <li>{item}</li>)}
+    </ul>
+    {note && <p class="note">{note}</p>}
+    <div class="actions">
+      <a class="details" href={href}>
+        {ui['card.details']}
+        <Arrow direction="right" />
+      </a>
+      {
+        links.demo && (
+          <a class="external" href={links.demo} target="_blank" rel="noopener noreferrer">
+            {ui['link.demo']}
+            <Arrow />
+          </a>
+        )
+      }
+      {
+        links.repo && (
+          <a class="external" href={links.repo} target="_blank" rel="noopener noreferrer">
+            {ui['link.repo']}
+            <Arrow />
+          </a>
+        )
+      }
+    </div>
   </div>
 </article>
 
 <style>
   .card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    padding: var(--space-5);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    transition: border-color 0.2s, transform 0.3s var(--ease-out);
+    position: relative;
+    display: grid;
+    gap: var(--space-5);
+    padding-block: clamp(1.75rem, 4vw, 3rem);
+    border-top: 1px solid var(--border);
   }
 
-  .card:hover {
-    border-color: var(--border-strong);
-    transform: translateY(-3px);
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: -1px 0 auto;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.7s var(--ease-out);
+  }
+
+  .card:hover::before,
+  .card:has(h3 a:focus-visible)::before {
+    transform: scaleX(1);
+  }
+
+  .head {
+    display: grid;
+    align-content: start;
+    gap: var(--space-4);
   }
 
   h3 {
-    font-size: 1.35rem;
     margin: 0;
+    font-size: var(--fs-title);
+    font-weight: 650;
+    letter-spacing: -0.035em;
+    line-height: 1;
   }
 
   h3 a {
+    display: inline-block;
     text-decoration: none;
+    transition:
+      transform 0.6s var(--ease-out),
+      color 0.3s var(--ease-out);
   }
 
-  h3 a:hover {
+  h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .card:hover h3 a {
+    transform: translateX(0.5rem);
     color: var(--accent);
   }
 
+  .info {
+    display: grid;
+    align-content: start;
+    gap: var(--space-4);
+  }
+
   .summary {
-    color: var(--muted);
+    max-width: 38rem;
     margin: 0;
+    color: var(--muted);
   }
 
   .stack {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-1) var(--space-2);
+    gap: var(--space-1) var(--space-3);
     list-style: none;
     margin: 0;
     padding: 0;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--muted);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    color: var(--fg);
   }
 
   .stack li:not(:last-child)::after {
-    content: '·';
-    margin-left: var(--space-2);
+    content: '/';
+    margin-left: var(--space-3);
+    color: var(--border-strong);
   }
 
   .note {
     margin: 0;
-    font-size: 0.8rem;
+    font-size: var(--fs-small);
     color: var(--warning);
   }
 
   .actions {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-4);
-    margin-top: auto;
+    gap: var(--space-2) var(--space-5);
     padding-top: var(--space-2);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
   .actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    white-space: nowrap;
     color: var(--muted);
-    text-underline-offset: 4px;
+    text-decoration: underline;
+    text-decoration-color: var(--border-strong);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.35em;
+    transition:
+      color 0.3s var(--ease-out),
+      text-decoration-color 0.3s var(--ease-out);
   }
 
   .actions a:hover {
     color: var(--fg);
+    text-decoration-color: var(--fg);
   }
 
   .actions .details {
     color: var(--fg);
+  }
+
+  .card:hover .details :global(svg) {
+    transform: translateX(3px);
+  }
+
+  .actions .external:hover :global(svg) {
+    transform: translate(2px, -2px);
+  }
+
+  @media (min-width: 60rem) {
+    .card {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--space-7);
+    }
   }
 </style>
