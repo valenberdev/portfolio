@@ -1,0 +1,109 @@
+---
+import type { Locale } from '../../i18n/locale';
+import { t } from '../../i18n/ui';
+import ContactLinks from '../ContactLinks.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = t(locale);
+const cvHref = `/cv/cv-valentino-berdini-${locale}.pdf`;
+---
+
+<section class="hero">
+  <div class="backdrop" aria-hidden="true">
+    <slot name="background" />
+  </div>
+  <div class="container content">
+    <p class="role">{ui['hero.role']} · Node.js · TypeScript · Java · PostgreSQL</p>
+    <h1>Valentino Berdini</h1>
+    <p class="tagline">{ui['hero.tagline']}</p>
+    <div class="actions">
+      <a class="button primary" href={`#${ui['section.projects']}`}>{ui['hero.cta.projects']}</a>
+      <a class="button" href={cvHref} download>{ui['hero.cta.cv']}</a>
+    </div>
+    <ContactLinks locale={locale} />
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    align-items: end;
+    min-height: calc(100svh - var(--header-h));
+    padding-block: var(--space-8) var(--space-7);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(60% 60% at 75% 35%, rgb(143 135 240 / 0.28), transparent 70%),
+      radial-gradient(45% 50% at 20% 80%, rgb(93 202 165 / 0.16), transparent 70%),
+      var(--bg);
+  }
+
+  .content {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+  }
+
+  .role {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 11vw, 8rem);
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    margin: 0;
+  }
+
+  .tagline {
+    max-width: 36rem;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .button {
+    padding: var(--space-3) var(--space-5);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  .button:hover {
+    background: var(--surface-2);
+  }
+
+  .button.primary {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+
+  .button.primary:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--fg);
+  }
+</style>

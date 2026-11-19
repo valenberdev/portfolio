@@ -1,0 +1,71 @@
+---
+import type { ProjectStatus } from '../../content/schemas';
+import type { Locale } from '../../i18n/locale';
+import { t, type UiKey } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  status: ProjectStatus;
+  team?: boolean;
+}
+
+const { locale, status, team = false } = Astro.props;
+const ui = t(locale);
+
+const STATUS_KEY: Record<ProjectStatus, UiKey> = {
+  live: 'status.live',
+  'code-only': 'status.codeOnly',
+  'deploy-only': 'status.deployOnly',
+  'in-progress': 'status.inProgress',
+};
+---
+
+<ul class="badges">
+  <li class:list={['badge', status]}>{ui[STATUS_KEY[status]]}</li>
+  {team && <li class="badge team">{ui['badge.team']}</li>}
+</ul>
+
+<style>
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.15rem 0.6rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
+  .badge::before {
+    content: '';
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .live,
+  .deploy-only {
+    color: var(--accent-2);
+  }
+
+  .in-progress {
+    color: var(--warning);
+  }
+
+  .team::before {
+    display: none;
+  }
+</style>

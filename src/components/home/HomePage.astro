@@ -1,0 +1,27 @@
+---
+import type { Locale } from '../../i18n/locale';
+import { t } from '../../i18n/ui';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getExperience, getProjects } from '../../lib/content';
+import AboutSection from './AboutSection.astro';
+import ContactSection from './ContactSection.astro';
+import ExperienceSection from './ExperienceSection.astro';
+import Hero from './Hero.astro';
+import ProjectsSection from './ProjectsSection.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = t(locale);
+const [projects, experience] = await Promise.all([getProjects(locale), getExperience(locale)]);
+---
+
+<BaseLayout locale={locale} title={ui['meta.title']} description={ui['meta.description']}>
+  <Hero locale={locale} />
+  <ProjectsSection locale={locale} projects={projects} />
+  <ExperienceSection locale={locale} items={experience} />
+  <AboutSection locale={locale} />
+  <ContactSection locale={locale} />
+</BaseLayout>

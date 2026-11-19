@@ -1,0 +1,128 @@
+---
+import type { Locale } from '../../i18n/locale';
+import { projectPath } from '../../i18n/routes';
+import { t } from '../../i18n/ui';
+import type { Project } from '../../lib/content';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  locale: Locale;
+  project: Project;
+}
+
+const { locale, project } = Astro.props;
+const { slug, entry } = project;
+const { title, summary, stack, status, team, links, note } = entry.data;
+const ui = t(locale);
+const href = projectPath(locale, slug);
+---
+
+<article class="card" data-reveal>
+  <StatusBadge locale={locale} status={status} team={team} />
+  <h3 transition:name={`project-${slug}`}>
+    <a href={href}>{title}</a>
+  </h3>
+  <p class="summary">{summary}</p>
+  <ul class="stack">
+    {stack.map((item) => <li>{item}</li>)}
+  </ul>
+  {note && <p class="note">{note}</p>}
+  <div class="actions">
+    <a class="details" href={href}>{ui['card.details']}</a>
+    {
+      links.demo && (
+        <a href={links.demo} target="_blank" rel="noopener noreferrer">
+          {ui['link.demo']} ↗
+        </a>
+      )
+    }
+    {
+      links.repo && (
+        <a href={links.repo} target="_blank" rel="noopener noreferrer">
+          {ui['link.repo']} ↗
+        </a>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 0.2s, transform 0.3s var(--ease-out);
+  }
+
+  .card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+  }
+
+  h3 {
+    font-size: 1.35rem;
+    margin: 0;
+  }
+
+  h3 a {
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    color: var(--accent);
+  }
+
+  .summary {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .stack li:not(:last-child)::after {
+    content: '·';
+    margin-left: var(--space-2);
+  }
+
+  .note {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--warning);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: auto;
+    padding-top: var(--space-2);
+    font-size: 0.9rem;
+  }
+
+  .actions a {
+    color: var(--muted);
+    text-underline-offset: 4px;
+  }
+
+  .actions a:hover {
+    color: var(--fg);
+  }
+
+  .actions .details {
+    color: var(--fg);
+  }
+</style>

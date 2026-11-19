@@ -32,6 +32,19 @@ const es = {
   "contact.email": "Enviar un email a Valentino Berdini",
   "notFound.title": "Página no encontrada",
   "notFound.back": "Volver al inicio",
+  "hero.tagline":
+    "Construyo APIs y sistemas backend que se pueden explicar, testear y mantener.",
+  "about.p1":
+    "Soy desarrollador backend, de Bahía Blanca, Argentina. Me formé como Full Stack Developer en Henry y hoy trabajo como freelance en el frontend de una app móvil para una clínica.",
+  "about.p2":
+    "En mis proyectos priorizo que cada decisión se pueda defender: SQL explícito, tests contra bases reales y documentación de por qué se hizo cada cosa. Trabajo en español e inglés (EF SET C2).",
+  "about.group.backend": "Backend",
+  "about.group.frontend": "Frontend",
+  "about.group.testing": "Testing",
+  "about.group.infra": "Infra y herramientas",
+  "experience.present": "actualidad",
+  "card.details": "Ver detalle",
+  "contact.lead": "¿Tenés una búsqueda abierta? Escribime y te respondo.",
 };
 
 export type UiKey = keyof typeof es;
@@ -69,6 +82,19 @@ const en: UiStrings = {
   "contact.email": "Email Valentino Berdini",
   "notFound.title": "Page not found",
   "notFound.back": "Back to home",
+  "hero.tagline":
+    "I build APIs and backend systems that are easy to explain, test and maintain.",
+  "about.p1":
+    "I'm a backend developer from Bahía Blanca, Argentina. I trained as a Full Stack Developer at Henry, and I currently work as a freelancer on the frontend of a mobile app for a clinic.",
+  "about.p2":
+    "In my projects, every decision has to be defensible: explicit SQL, tests against real databases and documentation of why each thing was done. I work in Spanish and English (EF SET C2).",
+  "about.group.backend": "Backend",
+  "about.group.frontend": "Frontend",
+  "about.group.testing": "Testing",
+  "about.group.infra": "Infra and tooling",
+  "experience.present": "present",
+  "card.details": "View details",
+  "contact.lead": "Hiring? Drop me a line and I will get back to you.",
 };
 
 export const ui: Record<Locale, UiStrings> = { es, en };

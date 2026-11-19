@@ -1,0 +1,48 @@
+---
+import type { Locale } from '../../i18n/locale';
+import { t } from '../../i18n/ui';
+import ContactLinks from '../ContactLinks.astro';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = t(locale);
+---
+
+<section id={ui['section.contact']} class="container section contact">
+  <SectionHeading number={4} title={ui['nav.contact']} />
+  <p class="lead" data-reveal>{ui['contact.lead']}</p>
+  <a class="email" href="mailto:vaberdini@gmail.com" data-reveal>vaberdini@gmail.com</a>
+  <div data-reveal>
+    <ContactLinks locale={locale} size="lg" />
+  </div>
+</section>
+
+<style>
+  .contact {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+  }
+
+  .lead {
+    font-size: 1.25rem;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .email {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-strong);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .email:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+</style>

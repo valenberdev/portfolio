@@ -108,3 +108,8 @@ code {
         transition-duration: 0.01ms !important;
     }
 }
+
+
+.section {
+    padding-block: var(--space-8);
+}
